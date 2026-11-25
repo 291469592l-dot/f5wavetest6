@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S.5 Physics Test 逐题深度拆解与学情诊断报告 — Emma (5D)</title>
+  <!-- Load Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Load Inter & Noto Sans SC fonts for crisp English + Chinese typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans SC', 'system-ui', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Custom typography & math fraction layout utilities (minimal helper classes alongside Tailwind) */
+    html { scroll-behavior: smooth; }
+    .math-eq {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: 'Inter', serif;
+      font-weight: 600;
+    }
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 0.2rem;
+      line-height: 1.15;
+    }
+    .frac-top {
+      border-bottom: 1.5px solid currentColor;
+      padding: 0 0.25rem 0.1rem;
+      text-align: center;
+    }
+    .frac-bot {
+      padding: 0.1rem 0.25rem 0;
+      text-align: center;
+    }
+    .red-strike {
+      text-decoration: line-through;
+      text-decoration-color: #e11d48;
+      text-decoration-thickness: 2px;
+    }
+    /* Print optimization for exporting as PDF handout */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; }
+      .print-break-avoid { break-inside: avoid; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+  <!-- ==================== TOP STICKY NAVIGATION ==================== -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm no-print">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-extrabold text-sm shadow-sm">
+          S.5
+        </div>
+        <div>
+          <h1 class="text-sm sm:text-base font-bold text-slate-900 leading-tight">物理试卷逐题深度拆解报告</h1>
+          <p class="text-xs text-slate-500">Light Wave &amp; EM Wave · Emma (5D)</p>
+        </div>
+      </div>
+
+      <!-- Quick jump navigation -->
+      <nav class="flex items-center gap-1.5 overflow-x-auto max-w-full pb-0.5 sm:pb-0">
+        <a href="#diagnosis" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-indigo-600 transition whitespace-nowrap">学情诊断</a>
+        <a href="#questions" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-indigo-600 transition whitespace-nowrap">逐题拆解</a>
+        <a href="#simulator" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-indigo-600 transition whitespace-nowrap">互动防坑</a>
+        <a href="#quiz" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-indigo-600 transition whitespace-nowrap">变式巩固</a>
+        <a href="#cheatsheet" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-indigo-600 transition whitespace-nowrap">急救手册</a>
+        <button onclick="window.print()" class="ml-1 px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-semibold hover:bg-slate-700 transition whitespace-nowrap shadow-sm">
+          打印 / 存PDF
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-10">
+
+    <!-- ==================== HERO BANNER ==================== -->
+    <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-9 shadow-xl">
+      <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-rose-500/20 blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div class="space-y-3 max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/30 text-rose-200 text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
+            基础高危预警 · 需立即进行地基重建
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            S.5 Physics Test (Light Wave, EM Wave) 手术级逐题拆解
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            这份测验满分为 <strong class="text-white">35 分</strong>，学生 <strong class="text-white">Emma (Class 5D)</strong> 仅获得约 <strong class="text-rose-300">10 / 35 分 (28.6%)</strong>。
+            丢分绝非“粗心”，而是暴露了 <strong class="text-amber-300">5 个系统性的底层漏洞</strong>：读题漏隐含条件、物理量张冠李戴、盲套单位、无数量级常识、以及电磁波基本概念断层。
+          </p>
+        </div>
+
+        <!-- Score Card -->
+        <div class="shrink-0 bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5 min-w-[230px] text-center">
+          <div class="text-xs uppercase tracking-wider text-slate-300 font-semibold">测验实得分数</div>
+          <div class="mt-1 flex items-baseline justify-center gap-1">
+            <span class="text-5xl font-black text-rose-400">10</span>
+            <span class="text-xl font-bold text-slate-400">/ 35</span>
+          </div>
+          <div class="mt-3 w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+            <div class="bg-gradient-to-r from-rose-500 to-amber-400 h-2.5 rounded-full" style="width: 28.6%"></div>
+          </div>
+          <div class="mt-3 grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-emerald-500/20 rounded-lg py-1.5 px-1">
+              <div class="font-bold text-emerald-300">3 题</div>
+              <div class="text-slate-300 text-[11px]">完全答对</div>
+            </div>
+            <div class="bg-amber-500/20 rounded-lg py-1.5 px-1">
+              <div class="font-bold text-amber-300">3 题</div>
+              <div class="text-slate-300 text-[11px]">残缺半对</div>
+            </div>
+            <div class="bg-rose-500/20 rounded-lg py-1.5 px-1">
+              <div class="font-bold text-rose-300">9 题</div>
+              <div class="text-slate-300 text-[11px]">全错/留白</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 1: ROOT CAUSE DIAGNOSIS ==================== -->
+    <section id="diagnosis" class="space-y-6 scroll-mt-20">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm">01</span>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">学情总览与「五大致命病根」诊断</h2>
+          <p class="text-sm text-slate-500">先看懂为什么丢了 25 分，再逐题精准修复</p>
+        </div>
+      </div>
+
+      <!-- 5 Competency Bars -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+        <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">核心物理能力雷达评估</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-700">1. 审题与物理量匹配 (区分 a / Δy / slit width / D)</span>
+              <span class="text-rose-600">20% · 极危</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-rose-500 h-2.5 rounded-full" style="width: 20%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-700">2. 单位换算与数量级直觉 (m/cm/mm, 可见光 10⁻⁷m)</span>
+              <span class="text-rose-600">15% · 极危</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-rose-500 h-2.5 rounded-full" style="width: 15%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-700">3. 电磁波谱与物理概念 (可见光/无线电波/微波)</span>
+              <span class="text-rose-600">20% · 极危</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-rose-500 h-2.5 rounded-full" style="width: 20%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-700">4. 基础公式套用与代数变形 (Q1, Q2 表现尚可)</span>
+              <span class="text-amber-600">45% · 薄弱</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-amber-500 h-2.5 rounded-full" style="width: 45%"></div>
+            </div>
+          </div>
+          <div class="md:col-span-2">
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-700">5. 英文物理规范作答与作图 (核心关键词 &amp; 光谱对称性)</span>
+              <span class="text-rose-600">25% · 极危</span>
+            </div>
+            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div class="bg-rose-500 h-2.5 rounded-full" style="width: 25%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Root Causes Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-white rounded-2xl border border-rose-200 p-5 shadow-sm">
+          <div class="flex items-center gap-2 text-rose-700 font-bold text-sm mb-2">
+            <span class="px-2 py-0.5 rounded-md bg-rose-100 text-xs">病根 1</span>
+            物理量张冠李戴 + 单位乱套
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            <strong>铁证：Q7(c) &amp; Q6(a)。</strong><br/>
+            在 Q7(c) 中，把双缝间距 0.2 mm（不换单位）填进了条纹间距 Δy，又把干扰项“单缝宽度 6.25×10⁻⁵ m”当成双缝间距 a！在 Q6(a) 中，题目明明是每米(per metre)线数，却死背每毫米的 10⁻³，导致结果差了 1000 倍。
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-rose-200 p-5 shadow-sm">
+          <div class="flex items-center gap-2 text-rose-700 font-bold text-sm mb-2">
+            <span class="px-2 py-0.5 rounded-md bg-rose-100 text-xs">病根 2</span>
+            完全提取不出「隐含常数」
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            <strong>铁证：Q6(a) &amp; Q8(b)。</strong><br/>
+            Q6(a) 说了 <em>metre rule</em>（米尺 = <strong>1.0 m</strong>），学生没读出来，硬把两条直角边都写成 0.37 凑出 45°；Q8(b) 写出了 v = fλ，却不知道电磁波波速默认是 <strong>3×10⁸ m/s</strong>，直接白卷交空！
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-amber-200 p-5 shadow-sm">
+          <div class="flex items-center gap-2 text-amber-800 font-bold text-sm mb-2">
+            <span class="px-2 py-0.5 rounded-md bg-amber-100 text-xs">病根 3</span>
+            零数量级常识 (不会验算)
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            <strong>铁证：Q6(a) &amp; Q7(c)。</strong><br/>
+            可见光波长一定在 <strong>4×10⁻⁷ ~ 7×10⁻⁷ m</strong> 之间。学生算出黄光波长 1.18×10⁻⁹ m（这是 X 射线！）、红光波长 3.42×10⁻¹ m（这是雷达微波！）却完全不觉得违和，说明公式只是机械套壳。
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-amber-200 p-5 shadow-sm">
+          <div class="flex items-center gap-2 text-amber-800 font-bold text-sm mb-2">
+            <span class="px-2 py-0.5 rounded-md bg-amber-100 text-xs">病根 4</span>
+            电磁波与干涉核心概念断层
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            <strong>铁证：Q4, Q5, Q6(d), Q8(a)(i)。</strong><br/>
+            竟然认为“人眼不能探测电磁波”（忘了可见光就是电磁波！）；以为微波双缝中心 O 点是极小值（掉进遮挡直觉坑）；以为红光比紫光偏折更小；以为电视广播用微波而不是无线电波。
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-indigo-200 p-5 shadow-sm md:col-span-2 lg:col-span-2">
+          <div class="flex items-center gap-2 text-indigo-800 font-bold text-sm mb-2">
+            <span class="px-2 py-0.5 rounded-md bg-indigo-100 text-xs">病根 5</span>
+            死背句子硬套 + 遇问答题/画图直接放弃
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            <strong>铁证：Q6(b), Q6(c), Q6(d), Q7(a), Q8(a)(ii), Q8(b)。</strong><br/>
+            Q6(c) 问“为何测第二级亮纹更准”（误差题），学生却把背的“衍射条件”胡乱默写上去；Q6(b) 写对公式不敢算；Q6(d) 光谱图一笔不画直接交白卷；Q8(a)(ii) 猜对 VHF 却一个字不解释。<strong>只要学会 4 句标准英文采分模板 + 画图规则，这类题立刻能多拿 10 分以上！</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 2: QUESTION-BY-QUESTION BREAKDOWN ==================== -->
+    <section id="questions" class="space-y-6 scroll-mt-20">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">02</span>
+          <div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">全卷逐题「手术级」深度拆解 (Q1 – Q8)</h2>
+            <p class="text-sm text-slate-500">原题双语还原 · 学生错因解剖 · 保姆级满分步骤 · 图解可视化</p>
+          </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap items-center gap-2 no-print" id="filter-bar">
+          <button data-filter="all" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-900 text-white shadow-sm transition">全部 (8大题)</button>
+          <button data-filter="wrong" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-rose-600 border border-rose-200 hover:bg-rose-50 transition">重灾错题</button>
+          <button data-filter="partial" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-amber-700 border border-amber-200 hover:bg-amber-50 transition">半对/待确认</button>
+          <button data-filter="correct" class="filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-50 transition">答对巩固</button>
+        </div>
+      </div>
+
+      <!-- Quick Question Anchor Strip -->
+      <div class="flex flex-wrap gap-2 no-print">
+        <a href="#q1" class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold hover:opacity-80">Q1 ✓</a>
+        <a href="#q2" class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold hover:opacity-80">Q2 ✓</a>
+        <a href="#q3" class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 text-xs font-bold hover:opacity-80">Q3 ?</a>
+        <a href="#q4" class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold hover:opacity-80">Q4 ✗</a>
+        <a href="#q5" class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold hover:opacity-80">Q5 ✗</a>
+        <a href="#q6" class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold hover:opacity-80">Q6 ✗ (重灾)</a>
+        <a href="#q7" class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold hover:opacity-80">Q7 ✗ (重灾)</a>
+        <a href="#q8" class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold hover:opacity-80">Q8 ✗ (重灾)</a>
+      </div>
+
+      <!-- ==================== Q1 ==================== -->
+      <article id="q1" data-status="correct" class="q-card bg-white rounded-3xl border border-emerald-200 shadow-sm overflow-hidden scroll-mt-24 print-break-avoid">
+        <div class="bg-emerald-50/80 px-5 sm:px-6 py-4 border-b border-emerald-100 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-xl bg-emerald-600 text-white font-extrabold text-sm">Q1</span>
+            <h3 class="font-bold text-slate-900 text-base">杨氏双缝干涉求亮纹级数 (Young's Double Slit)</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold">✅ 回答正确 · 2 / 2 分</span>
+          </div>
+        </div>
+        <div class="p-5 sm:p-6 space-y-5">
+          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-sm space-y-1.5">
+            <p class="text-slate-800 font-medium">
+              <strong>原题：</strong>In a Young's double slit experiment, the distance between the slits and the screen is <mark class="bg-indigo-100 px-1 rounded">0.5 m</mark>. The wavelength of the incident light is <mark class="bg-indigo-100 px-1 rounded">7 × 10⁻⁷ m</mark> and the slit separation is <mark class="bg-indigo-100 px-1 rounded">3 × 10⁻⁵ m</mark>. If a bright fringe A is approximately <mark class="bg-amber-100 px-1 rounded">4.67 cm</mark> away from the zeroth-order bright fringe, what is the order of A?
+            </p>
+            <p class="text-slate-500 text-xs">
+              <strong>中文释义：</strong>杨氏双缝实验中，双缝到光屏的距离 D = 0.5 m，入射光波长 λ = 7×10⁻⁷ m，双缝间距 a = 3×10⁻⁵ m。若亮纹 A 距离中央零级亮纹约 4.67 cm，问 A 是第几级亮纹？ (A. 1级 / B. 2级 / C. 3级 / D. 4级)
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="rounded-2xl bg-emerald-50/50 border border-emerald-200 p-4">
+              <div class="text-xs font-bold text-emerald-800 mb-2">📝 学生作答点评</div>
+              <p class="text-xs text-slate-700 leading-relaxed">
+                写出了核心公式 <span class="font-mono font-bold">Δy = λD / a</span> 并正确选出了 <strong>(D) fourth</strong>。<br/>
+                <span class="text-amber-700 font-semibold mt-1 inline-block">⚠️ 潜在隐患：</span>卷面上没有写单位换算过程（4.67 cm → 0.0467 m）和代入步骤，这种“只在计算器里按”的习惯正是后面 Q7(c) 全盘崩溃的伏笔！
+              </p>
+            </div>
+
+            <div class="rounded-2xl bg-indigo-50/50 border border-indigo-200 p-4">
+              <div class="text-xs font-bold text-indigo-800 mb-2">✨ 标准满分步骤</div>
+              <div class="text-xs text-slate-700 space-y-2">
+                <div><strong>① 统一换算为国际单位 (m)：</strong> D = 0.5 m，λ = 7×10⁻⁷ m，a = 3×10⁻⁵ m，y = 4.67 cm = <strong>0.0467 m</strong>。</div>
+                <div class="flex items-center flex-wrap gap-1">
+                  <strong>② 求相邻条纹间距：</strong>
+                  <span class="math-eq">Δy = <span class="frac"><span class="frac-top">λD</span><span class="frac-bot">a</span></span> = <span class="frac"><span class="frac-top">(7×10⁻⁷)(0.5)</span><span class="frac-bot">3×10⁻⁵</span></span> = 0.01167 m = 1.167 cm</span>
+                </div>
+                <div class="flex items-center flex-wrap gap-1">
+                  <strong>③ 求级数 n：</strong>
+                  <span class="math-eq">n = <span class="frac"><span class="frac-top">4.67 cm</span><span class="frac-bot">1.167 cm</span></span> = 4.00 → <strong>选 D (fourth)</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ==================== Q2 ==================== -->
+      <article id="q2" data-status="correct" class="q-card bg-white rounded-3xl border border-emerald-200 shadow-sm overflow-hidden scroll-mt-24 print-break-avoid">
+        <div class="bg-emerald-50/80 px-5 sm:px-6 py-4 border-b border-emerald-100 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-xl bg-emerald-600 text-white font-extrabold text-sm">Q2</span>
+            <h3 class="font-bold text-slate-900 text-base">透射光栅级数与衍射角关系 (Diffraction Grating)</h3>
+          </div>
+          <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold">✅ 回答正确 · 2 / 2 分</span>
+        </div>
+        <div class="p-5 sm:p-6 space-y-5">
+          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-sm space-y-1.5">
+            <p class="text-slate-800 font-medium">
+              <strong>原题：</strong>A monochromatic light source with a wavelength λ is used in a plane transmission grating experiment. The first-order beam makes an angle <mark class="bg-indigo-100 px-1 rounded">7.09°</mark> with the direction of incidence. Find the angle between the <mark class="bg-indigo-100 px-1 rounded">third order</mark> beam and the direction of incidence.
+            </p>
+            <p class="text-slate-500 text-xs">
+              <strong>中文释义：</strong>单色光通过平面透射光栅，第 1 级亮纹衍射角为 7.09°，求第 3 级亮纹的衍射角。(A. 14.9° / B. 21.3° / C. 21.7° / D. 无法确定)
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="rounded-2xl bg-emerald-50/50 border border-emerald-200 p-4">
+              <div class="text-xs font-bold text-emerald-800 mb-2">📝 学生作答点评（值得表扬！）</div>
+              <p class="text-xs text-slate-700 leading-relaxed">
+                这是全卷做得最好的一道题！学生写出了 <span class="font-mono">d sin 7.09° = λ</span> 和 <span class="font-mono">d sin θ₃ = 3λ</span>，并成功消元得到 <strong>C (21.7°)</strong>，没有掉进直接算 3 × 7.09° = 21.3° (选项 B) 的经典陷阱！说明学生具备基本代数能力，缺的是对物理情境和单位的理解。
+              </p>
+            </div>
+
+            <div class="rounded-2xl bg-indigo-50/50 border border-indigo-200 p-4">
+              <div class="text-xs font-bold text-indigo-800 mb-2">✨ 最快秒杀技巧（比值法）</div>
+              <div class="text-xs text-slate-700 space-y-1.5">
+                <div>由光栅公式 <strong>d sin θₙ = nλ</strong>，两式相除直接消去 d 和 λ：</div>
+                <div class="math-eq"><span class="frac"><span class="frac-top">sin θ₃</span><span class="frac-bot">sin θ₁</span></span> = <span class="frac"><span class="frac-top">3</span><span class="frac-bot">1</span></span> ⇒ sin θ₃ = 3 × sin 7.09° = 0.3703</div>
+                <div>θ₃ = sin⁻¹(0.3703) = <strong>21.73° ≈ 21.7° (选 C)</strong></div>
+                <div class="text-rose-600 font-semibold">⚠️ 牢记：是 sin θ 与 n 成正比，不是角度 θ 直接与 n 成正比！</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ==================== Q3 ==================== -->
+      <article id="q3" data-status="partial" class="q-card bg-white rounded-3xl border border-amber-200 shadow-sm overflow-hidden scroll-mt-24 print-break-avoid">
+        <div class="bg-amber-50/80 px-5 sm:px-6 py-4 border-b border-amber-100 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-xl bg-amber-500 text-white font-extrabold text-sm">Q3</span>
+            <h3 class="font-bold text-slate-900 text-base">单缝衍射图样：蓝光换红光的变化 (Single-Slit Diffraction)</h3>
+          </div>
+          <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 text-xs font-bold">⚠️ 扫描件选项图缺失 · 必考概念精讲</span>
+        </div>
+        <div class="p-5 sm:p-6 space-y-5">
+          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-sm space-y-1.5">
+            <p class="text-slate-800 font-medium">
+              <strong>原题：</strong>The diffraction pattern below is obtained when a beam of <mark class="bg-blue-100 text-blue-900 px-1 rounded">blue light</mark> is directed towards a single slit. Which of the following figure best shows the diffraction pattern if the blue light source is replaced by a <mark class="bg-rose-100 text-rose-900 px-1 rounded">red light</mark> source?
+            </p>
+            <p class="text-slate-500 text-xs">
+              <strong>中文释义：</strong>一束蓝光射向单缝得到某个衍射图样。若将蓝光换成红光，下列哪幅图最能表示新的衍射图样？（注：原 PDF 第 1 页扫描件未完整提取出 Q3 的选项图片及学生圈选，故此处重点讲透核心规律与图样对比。）
+            </p>
+          </div>
+
+          <!-- Visual SVG Comparison of Single-Slit Diffraction -->
+          <div class="rounded-2xl bg-slate-900 text-white p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-300">🔬 直观图解：蓝光 vs 红光 单缝衍射图样对比</span>
+              <span class="text-xs text-amber-300 font-semibold">核心口诀：λ 越长，衍射越明显，条纹越宽越疏！</span>
+            </div>
+            <svg viewBox="0 0 680 175" class="w-full h-auto rounded-xl bg-slate-950 border border-slate-800">
+              <!-- Blue Light Pattern -->
+              <text x="16" y="26" fill="#60a5fa" font-size="13" font-weight="bold">原本：蓝光 Blue Light (λ ≈ 450 nm，波长短 → 条纹窄且密)</text>
+              <g transform="translate(0, 38)">
+                <rect x="20" y="0" width="640" height="32" rx="6" fill="#0f172a" />
+                <!-- Central maximum (narrower) -->
+                <rect x="290" y="3" width="100" height="26" rx="4" fill="#3b82f6" />
+                <!-- 1st side maxima -->
+                <rect x="225" y="5" width="48" height="22" rx="3" fill="#3b82f6" fill-opacity="0.65" />
+                <rect x="407" y="5" width="48" height="22" rx="3" fill="#3b82f6" fill-opacity="0.65" />
+                <!-- 2nd side maxima -->
+                <rect x="165" y="7" width="44" height="18" rx="3" fill="#3b82f6" fill-opacity="0.4" />
+                <rect x="471" y="7" width="44" height="18" rx="3" fill="#3b82f6" fill-opacity="0.4" />
+                <!-- 3rd side maxima -->
+                <rect x="108" y="8" width="40" height="16" rx="3" fill="#3b82f6" fill-opacity="0.25" />
+                <rect x="532" y="8" width="40" height="16" rx="3" fill="#3b82f6" fill-opacity="0.25" />
+                <text x="340" y="20" fill="#ffffff" font-size="10" text-anchor="middle" font-weight="bold">中央亮纹 (2倍宽)</text>
+              </g>
+
+              <!-- Red Light Pattern -->
+              <text x="16" y="102" fill="#f87171" font-size="13" font-weight="bold">更换后：红光 Red Light (λ ≈ 650 nm，波长长 → 条纹变宽、间距拉大)</text>
+              <g transform="translate(0, 114)">
+                <rect x="20" y="0" width="640" height="32" rx="6" fill="#0f172a" />
+                <!-- Central maximum (wider by ~1.45x) -->
+                <rect x="265" y="3" width="150" height="26" rx="4" fill="#ef4444" />
+                <!-- 1st side maxima -->
+                <rect x="172" y="5" width="70" height="22" rx="3" fill="#ef4444" fill-opacity="0.65" />
+                <rect x="438" y="5" width="70" height="22" rx="3" fill="#ef4444" fill-opacity="0.65" />
+                <!-- 2nd side maxima -->
+                <rect x="85" y="7" width="64" height="18" rx="3" fill="#ef4444" fill-opacity="0.38" />
+                <rect x="531" y="7" width="64" height="18" rx="3" fill="#ef4444" fill-opacity="0.38" />
+                <text x="340" y="20" fill="#ffffff" font-size="10" text-anchor="middle" font-weight="bold">中央亮纹明显变宽！</text>
+              </g>
+
+              <!-- Center dashed line -->
+              <line x1="340" y1="35" x2="340" y2="152" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3" />
+              <text x="340" y="167" fill="#94a3b8" font-size="10" text-anchor="middle">单缝衍射特征：中央亮纹最亮，宽度约为两侧次亮纹的 2 倍；换红光后整体等比例拉宽！</text>
+            </svg>
+          </div>
+
+          <div class="rounded-2xl bg-indigo-50/60 border border-indigo-200 p-4 text-xs text-slate-700 space-y-1.5">
+            <div class="font-bold text-indigo-900">🔑 必背判题三步法：</div>
+            <p>1. <strong>比波长：</strong>可见光顺序 <strong>红橙黄绿青蓝紫 (ROYGBIV)</strong>，红光波长最长 (≈ 700 nm)，蓝紫光最短 (≈ 400–450 nm)，所以 <strong>λ红 &gt; λ蓝</strong>。</p>
+            <p>2. <strong>看衍射程度：</strong>波长越长，衍射越显著（spreading out more），单缝中央亮纹宽度与 λ 成正比。</p>
+            <p>3. <strong>选正确图样：</strong>找那幅<strong>中央亮纹明显变宽、旁边亮纹也变宽且变疏（同等宽度内亮纹数量减少）、但保持“中央最宽、两边变窄”结构</strong>的选项！（切忌错选成等宽的双缝干涉图样！）</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- ==================== Q4 ==================== -->
+      <article id="q4" data-status="wrong" class="q-card bg-white rounded-3xl border border-rose-200 shadow-sm overflow-hidden scroll-mt-24 print-break-avoid">
+        <div class="bg-rose-50/80 px-5 sm:px-6 py-4 border-b border-rose-100 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-xl bg-rose-600 text-white font-extrabold text-sm">Q4</span>
+            <h3 class="font-bold text-slate-900 text-base">微波双缝干涉：中心点 O 是波峰还是波谷？</h3>
+          </div>
+          <span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold">❌ 答错 (选 B，正解 A) · 0 / 2 分</span>
+        </div>
+        <div class="p-5 sm:p-6 space-y-5">
+          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-sm space-y-1.5">
+            <p class="text-slate-800 font-medium">
+              <strong>原题：</strong>A student directs a beam of microwaves towards three aluminium plates as shown. O is a point on PQ such that <mark class="bg-indigo-100 px-1 rounded">S₁O = S₂O</mark>. Which of the following graphs best shows the reading of the milliammeter when the point detector is moved along PQ?
+            </p>
+            <p class="text-slate-500 text-xs">
+              <strong>中文释义：</strong>微波发射器向三块铝板（构成双缝 S₁、S₂）发射微波，O 点满足 S₁O = S₂O。当点探测器沿 PQ 移动时，哪幅图表示毫安表读数（即微波强度）随距离的变化？
+            </p>
+          </div>
+
+          <!-- SVG Illustration of Q4 Trap -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="rounded-2xl bg-rose-50/50 border border-rose-200 p-4 space-y-3">
+              <div class="text-xs font-bold text-rose-800">❌ 学生选了 B（中心 O 点读数最低）— 为什么掉坑？</div>
+              <svg viewBox="0 0 320 140" class="w-full h-auto bg-white rounded-xl border border-rose-200">
+                <line x1="20" y1="115" x2="300" y2="115" stroke="#475569" stroke-width="1.5" />
+                <line x1="160" y1="125" x2="160" y2="15" stroke="#475569" stroke-width="1.5" />
+                <text x="160" y="136" fill="#0f172a" font-size="11" text-anchor="middle" font-weight="bold">O</text>
+                <text x="290" y="110" fill="#64748b" font-size="9" text-anchor="end">distance</text>
+                <!-- Wrong curve B: trough at O -->
+                <path d="M 40 30 Q 60 110 80 110 Q 100 110 120 30 Q 140 110 160 110 Q 180 110 200 30 Q 220 110 240 110 Q 260 110 280 30" fill="none" stroke="#e11d48" stroke-width="2.5" />
+                <circle cx="160" cy="110" r="5" fill="#e11d48" />
+                <text x="160" y="94" fill="#e11d48" font-size="10" text-anchor="middle" font-weight="bold">错以为 O 是极小值!</text>
+              </svg>
+              <p class="text-xs text-slate-700 leading-relaxed">
+                <strong>两大典型误区：</strong><br/>
+                1. <strong>生活直觉干扰：</strong>看到中间有块铝板挡在发射器和 O 点正前方，就凭感觉以为“O 点被铝板挡住了，信号最弱”！却忘了微波在 S₁、S₂ 处发生了<strong>衍射绕过铝板</strong>。<br/>
+                2. <strong>公式死角：</strong>看到 S₁O = S₂O，算出波程差 = 0，误把“波程差为 0”当成了“没有信号 / 相消”。
+              </p>
+            </div>
+
+            <div class="rounded-2xl bg-emerald-50/50 border border-emerald-200 p-4 space-y-3">
+              <div class="text-xs font-bold text-emerald-800">✅ 正确答案 A（中心 O 点读数最高！）</div>
+              <svg viewBox="0 0 320 140" class="w-full h-auto bg-white rounded-xl border border-emerald-200">
+                <line x1="20" y1="115" x2="300" y2="115" stroke="#475569" stroke-width="1.5" />
+                <line x1="160" y1="125" x2="160" y2="15" stroke="#475569" stroke-width="1.5" />
+                <text x="160" y="136" fill="#0f172a" font-size="11" text-anchor="middle" font-weight="bold">O</text>
+                <text x="290" y="110" fill="#64748b" font-size="9" text-anchor="end">distance</text>
+                <!-- Correct curve A: peak at O -->
+                <path d="M 40 110 Q 60 30 80 30 Q 100 30 120 110 Q 140 30 160 30 Q 180 30 200 110 Q 220 30 240 30 Q 260 30 280 110" fill="none" stroke="#059669" stroke-width="2.5" />
+                <circle cx="160" cy="30" r="5" fill="#059669" />
+                <text x="160" y="22" fill="#059669" font-size="10" text-anchor="middle" font-weight="bold">O 点是最大峰值 (0级亮纹)!</text>
+              </svg>
+              <p class="text-xs text-slate-700 leading-relaxed">
+                <strong>严密推理：</strong><br/>
+                1. S₁、S₂ 来自同一发射器，是<strong>同相相干波源 (in-phase coherent sources)</strong>。<br/>
+                2. 在 O 点，S₁O = S₂O ⇒ <strong>波程差 Δ = 0 = 0λ</strong>。<br/>
+                3. 两列波同时出发、走同样距离，到达 O 点必然<strong>波峰遇波峰（同相到达）</strong>，发生<strong>相长干涉 (Constructive Interference)</strong> → 读数最大！<strong>选 A。</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ==================== Q5 ==================== -->
+      <article id="q5" data-status="wrong" class="q-card bg-white rounded-3xl border border-rose-200 shadow-sm overflow-hidden scroll-mt-24 print-break-avoid">
+        <div class="bg-rose-50/80 px-5 sm:px-6 py-4 border-b border-rose-100 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-xl bg-rose-600 text-white font-extrabold text-sm">Q5</span>
+            <h3 class="font-bold text-slate-900 text-base">电磁波基本性质辨析 (Electromagnetic Waves)</h3>
+          </div>
+          <span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold">❌ 答错 (选 B，正解 A) · 0 / 2 分</span>
+        </div>
+        <div class="p-5 sm:p-6 space-y-4">
+          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-sm">
+            <p class="font-medium text-slate-900"><strong>原题：</strong>Which of the following statements about electromagnetic waves is <mark class="bg-rose-200 text-rose-900 px-1.5 rounded font-bold">INCORRECT</mark>?</p>
+          </div>
+
+          <div class="space-y-2.5 text-xs sm:text-sm">
+            <div class="p-3.5 rounded-xl bg-emerald-50 border-2 border-emerald-400 flex items-start gap-3">
+              <span class="px-2 py-0.5 rounded bg-emerald-600 text-white font-bold text-xs shrink-0">A (正解)</span>
+              <div>
+                <p class="font-semibold text-slate-900">The speed of electromagnetic waves in <span class="underline decoration-rose-500 decoration-2 font-bold text-rose-700">any media</span> is 3 × 10⁸ m s⁻¹.</p>
+                <p class="text-xs text-emerald-800 mt-1"><strong>❌ 这句话是错的（所以选 A）！</strong>3 × 10⁸ m/s 仅仅是电磁波在<strong>真空 (vacuum)</strong>（近似空气）中的速度！进入玻璃、水等介质时，速度会<strong>变慢</strong>（v = c / n &lt; 3×10⁸ m/s）。看到 <em>any media / always / only</em> 一定要立刻警惕！</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 flex items-start gap-3">
+              <span class="px-2 py-0.5 rounded bg-rose-600 text-white font-bold text-xs shrink-0">B (学生错选)</span>
+              <div>
+                <p class="font-semibold text-slate-900">Human eyes can detect electromagnetic waves.</p>
+                <p class="text-xs text-rose-800 mt-1"><strong>✅ 这句话是对的！</strong><strong>可见光 (Visible light) 本身就是电磁波大家族的一员！</strong>你现在用眼睛看这份报告，就是在用眼睛探测电磁波！学生把“电磁波”狭隘地当成了“看不见的辐射”，这是极其严重的基础概念断层。</p>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+              <span class="px-2 py-0.5 rounded bg-slate-500 text-white font-bold text-xs shrink-0">C</span>
+              <p class="text-xs text-slate-700"><strong>Some electromagnetic waves are invisible to human.</strong> ✅ 正确（无线电波、微波、红外、紫外、X射线、γ射线都看不见）。</p>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3">
+              <span class="px-2 py-0.5 rounded bg-slate-500 text-white font-bold text-xs shrink-0">D</span>
+              <p class="text-xs text-slate-700"><strong>Electromagnetic waves are transverse waves.</strong> ✅ 正确（所有电磁波都是横波）。</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ==================== Q6 (HEAVYWEIGHT 11 MARKS) ==================== -->
+      <article id="q6" data-status="wrong" class="q-card bg-white rounded-3xl border-2 border-rose-300 shadow-md overflow-hidden scroll-mt-24">
+        <div class="bg-rose-600 text-white px-5 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-xl bg-white text-rose-700 font-extrabold text-sm">Q6</span>
+            <div>
+              <h3 class="font-bold text-base sm:text-lg">光栅测黄光波长 &amp; 白光光谱综合大题 (重灾区！)</h3>
+              <p class="text-xs text-rose-100">全卷分值最高 (11 分)，学生几乎全军覆没 (仅约 0–2 分)</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-lg bg-rose-800/80 text-white text-xs font-bold">🔴 全题 11 分 · 必须彻底推倒重学</span>
+        </div>
+
+        <div class="p-5 sm:p-6 space-y-8">
+          <!-- Context -->
+          <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-sm space-y-2">
+            <p class="text-slate-800 leading-relaxed">
+              <strong>实验背景：</strong>Angela 用光栅观察加了黄色滤光片的白炽灯。光栅放在一把 <mark class="bg-rose-200 text-rose-900 font-bold px-1.5 rounded">metre rule (米尺 = 1.0 m!)</mark> 的一端并瞄准灯泡；米尺的另一端垂直放置第二把尺。同伴 Hazel 沿第二把尺移动铅笔，直到铅笔与 Angela 看到的 <strong>第 1 级亮纹 (first bright fringe, n = 1)</strong> 重合。
+            </p>
+          </div>
+
+          <!-- 6(a) -->
+          <div class="border-l-4 border-rose-500 pl-4 sm:pl-5 space-y-4 print-break-avoid">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-extrabold text-slate-900 text-base">6(a) 求黄光波长 (4 marks)</h4>
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-bold">❌ 连续犯了 3 个致命低级错！</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200">
+              If the distance between the pen and the first rule <em>x</em> is <strong>0.37 m</strong> and the diffraction grating used has <strong>6 × 10⁵ lines per metre</strong>, calculate the wavelength of the yellow light.
+            </p>
+
+            <!-- Side-by-side Triangle Comparison SVG -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="bg-rose-50/60 border border-rose-200 rounded-2xl p-4 space-y-3">
+                <div class="text-xs font-bold text-rose-800">❌ 学生画的错误三角形 &amp; 三连错解剖</div>
+                <svg viewBox="0 0 300 130" class="w-full h-auto bg-white rounded-xl border border-rose-200">
+                  <polygon points="40,105 210,105 210,25" fill="#fff1f2" stroke="#e11d48" stroke-width="2" />
+                  <rect x="198" y="93" width="12" height="12" fill="none" stroke="#e11d48" stroke-width="1.5" />
+                  <text x="125" y="122" fill="#e11d48" font-size="12" font-weight="bold" text-anchor="middle">底边乱写 0.37 ❌</text>
+                  <text x="250" y="68" fill="#0f172a" font-size="11" font-weight="bold" text-anchor="middle">x = 0.37 m</text>
+                  <text x="80" y="98" fill="#e11d48" font-size="11" font-weight="bold">θ = 45° ❌</text>
+                  <text x="40" y="18" fill="#64748b" font-size="10">学生草稿：tan θ = 0.37 / 0.37 → θ = 45°</text>
+                </svg>
+                <ul class="text-xs text-slate-700 space-y-1.5 list-disc pl-4">
+                  <li><strong class="text-rose-700">错 1（漏隐含条件）：</strong>没看见 <strong>metre rule = 1.0 m</strong>，底边没数字可填，竟然把 0.37 填了两遍，算出 tan θ = 1 → 45°！</li>
+                  <li><strong class="text-rose-700">错 2（死背单位公式）：</strong>题给的是 <strong>per metre（每米）</strong>，光栅常数直接是 d = 1 / (6×10⁵) m。学生死背了“每毫米”用的 10⁻³，算成 10⁻³ / (6×10⁵)，直接缩小 1000 倍！</li>
+                  <li><strong class="text-rose-700">错 3（无常识验算）：</strong>算出 <strong>λ = 1.18 × 10⁻⁹ m</strong>（1.18 nm 是 X 射线！），完全没意识到黄光应该是 5.8 × 10⁻⁷ m 左右！</li>
+                </ul>
+              </div>
+
+              <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-4 space-y-3">
+                <div class="text-xs font-bold text-emerald-800">✅ 正确几何模型 &amp; 4分满分过程</div>
+                <svg viewBox="0 0 300 130" class="w-full h-auto bg-white rounded-xl border border-emerald-200">
+                  <polygon points="30,105 220,105 220,35" fill="#ecfdf5" stroke="#059669" stroke-width="2" />
+                  <rect x="208" y="93" width="12" height="12" fill="none" stroke="#059669" stroke-width="1.5" />
+                  <text x="125" y="122" fill="#059669" font-size="12" font-weight="bold" text-anchor="middle">米尺长度 L = 1.0 m ✓</text>
+                  <text x="260" y="72" fill="#0f172a" font-size="11" font-weight="bold" text-anchor="middle">x = 0.37 m</text>
+                  <text x="90" y="97" fill="#059669" font-size="11" font-weight="bold">θ₁ = 20.3°</text>
+                  <text x="30" y="20" fill="#059669" font-size="10" font-weight="bold">眼睛 + 光栅</text>
+                </svg>
+                <div class="text-xs text-slate-700 space-y-2">
+                  <div><strong>Step 1 求第 1 级衍射角 θ₁ (1分)：</strong><br/>
+                    <span class="math-eq">tan θ₁ = <span class="frac"><span class="frac-top">x</span><span class="frac-bot">L</span></span> = <span class="frac"><span class="frac-top">0.37</span><span class="frac-bot">1.0</span></span> = 0.37 ⇒ <strong>θ₁ = 20.30°</strong></span>
+                  </div>
+                  <div><strong>Step 2 求光栅间距 d (1分)：</strong><br/>
+                    因为是 per <strong>metre</strong>（已是米！），直接取倒数：<br/>
+                    <span class="math-eq">d = <span class="frac"><span class="frac-top">1</span><span class="frac-bot">6 × 10⁵</span></span> = <strong>1.667 × 10⁻⁶ m</strong></span>
+                  </div>
+                  <div><strong>Step 3 代入 d sin θₙ = nλ，n = 1 (2分)：</strong><br/>
+                    <span class="math-eq">λ = d sin θ₁ = (1.667 × 10⁻⁶) × sin 20.30° = <strong>5.78 × 10⁻⁷ m</strong> (578 nm)</span>
+                  </div>
+                  <div class="text-emerald-700 font-bold">✓ 验算：578 nm 恰好落在黄光波段 (570–590 nm)，完美！</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6(b) -->
+          <div class="border-l-4 border-amber-500 pl-4 sm:pl-5 space-y-3 print-break-avoid">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-extrabold text-slate-900 text-base">6(b) 求可见的最高亮纹级数 Maximum Order (2 marks)</h4>
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-bold">❌ 只写公式，计算留白</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-amber-50/60 border border-amber-200 rounded-2xl p-4">
+                <div class="font-bold text-amber-800 mb-1.5">📝 学生作答</div>
+                <p class="text-slate-700">只写出了 <span class="font-mono font-bold">n ≤ d / λ</span>，后面一片空白。其实已经拿对了核心不等式，却不敢往下代入计算，白丢分！</p>
+              </div>
+              <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-4 space-y-1.5">
+                <div class="font-bold text-emerald-800">✅ 满分步骤（牢记：永远向下取整！）</div>
+                <div>因为最大衍射角 θ &lt; 90°，即 sin θ ≤ 1，故：</div>
+                <div class="math-eq">n ≤ <span class="frac"><span class="frac-top">d</span><span class="frac-bot">λ</span></span> = <span class="frac"><span class="frac-top">1.667 × 10⁻⁶</span><span class="frac-bot">5.78 × 10⁻⁷</span></span> = <strong>2.88</strong></div>
+                <div>由于级数 n 必须为整数，<strong>绝不能四舍五入进位成 3</strong>（3 级需要 sin θ &gt; 1，不可能存在）！</div>
+                <div class="font-bold text-emerald-800">∴ 最高级数 Maximum order = 2 (second order)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6(c) -->
+          <div class="border-l-4 border-rose-500 pl-4 sm:pl-5 space-y-3 print-break-avoid">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-extrabold text-slate-900 text-base">6(c) 为什么建议测第 2 级亮纹而不是第 1 级？(1 mark)</h4>
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-bold">❌ 答非所问 (0/1)</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-rose-50/60 border border-rose-200 rounded-2xl p-4">
+                <div class="font-bold text-rose-800 mb-1.5">❌ 学生作答（文不对题！）</div>
+                <p class="italic text-slate-600">"For a interference pattern, two slit must not be too far apart and the width need to be comparable to the λ."</p>
+                <p class="text-rose-700 mt-2 font-semibold">诊断：根本没读懂题！题目问的是“实验测量为什么要测更大的距离”，学生却把死记硬背的“观察衍射/干涉条件”硬贴了上来。</p>
+              </div>
+              <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-4 space-y-1.5">
+                <div class="font-bold text-emerald-800">✅ 标准满分答案（实验题万能金句！）</div>
+                <p class="text-slate-800 font-medium"><strong>英文模板：</strong>"The distance <em>x</em> measured is larger, which <strong>reduces the percentage error</strong> (or fractional error) in the measurement, thus giving a more accurate result."</p>
+                <p class="text-slate-600"><strong>中文理解：</strong>尺子的读数误差固定（如 ±1 mm），测的距离越大，<strong>百分比误差 (percentage error)</strong> 就越小，结果越准！（生活类比：量 1 根头发差 1 mm 误差极大，量 10 米差 1 mm 几乎可以忽略！）</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6(d) -->
+          <div class="border-l-4 border-rose-500 pl-4 sm:pl-5 space-y-4 print-break-avoid">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-extrabold text-slate-900 text-base">6(d) 拿走黄色滤光片：画出至第 2 级的白光光谱 &amp; 标颜色 A, B, C (4 marks)</h4>
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-bold">❌ 0 / 4 分 (画图白卷 + 颜色填反)</span>
+            </div>
+
+            <div class="bg-rose-50/60 border border-rose-200 rounded-2xl p-3.5 text-xs text-rose-900">
+              <strong>❌ 学生情况：</strong>整个光谱图一笔没画（老师画了两个大红问号 <span class="font-bold text-rose-600 text-sm">? ?</span>）；颜色填空把 <strong>B 填成了 red（正好写反！）</strong>，A 和 C 留白。
+            </div>
+
+            <!-- Full-Color Accurate SVG Diagram for Q6(d) -->
+            <div class="bg-slate-900 rounded-2xl p-4 sm:p-5 text-white space-y-3">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="text-xs font-bold text-amber-300">🎨 4分满分作图示范（严格按真实角度比例绘制！）</span>
+                <span class="text-[11px] text-slate-300">口诀：中央白 (White)，内紫外红 (Violet inside, Red outside)，2级更宽且对称！</span>
+              </div>
+              <svg viewBox="0 0 760 205" class="w-full h-auto bg-slate-950 rounded-xl border border-slate-700">
+                <defs>
+                  <!-- Left spectra: Red on left (outer), Violet on right (inner) -->
+                  <linearGradient id="specLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ef4444" />
+                    <stop offset="22%" stop-color="#f97316" />
+                    <stop offset="40%" stop-color="#eab308" />
+                    <stop offset="60%" stop-color="#22c55e" />
+                    <stop offset="80%" stop-color="#3b82f6" />
+                    <stop offset="100%" stop-color="#8b5cf6" />
+                  </linearGradient>
+                  <!-- Right spectra: Violet on left (inner), Red on right (outer) -->
+                  <linearGradient id="specRight" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#8b5cf6" />
+                    <stop offset="20%" stop-color="#3b82f6" />
+                    <stop offset="40%" stop-color="#22c55e" />
+                    <stop offset="60%" stop-color="#eab308" />
+                    <stop offset="78%" stop-color="#f97316" />
+                    <stop offset="100%" stop-color="#ef4444" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Strip Frame -->
+                <rect x="20" y="45" width="720" height="72" rx="4" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5" />
+
+                <!-- Center label -->
+                <text x="380" y="22" fill="#e2e8f0" font-size="11" text-anchor="middle" font-weight="bold">Centre of the pattern (θ = 0°)</text>
+                <line x1="380" y1="27" x2="380" y2="42" stroke="#e2e8f0" stroke-width="1.5" />
+
+                <!-- Central Maximum A (White) -->
+                <rect x="375" y="46" width="10" height="70" fill="#ffffff" />
+
+                <!-- Left 1st Order (Given in exam) -->
+                <rect x="255" y="46" width="58" height="70" fill="url(#specLeft)" stroke="#cbd5e1" stroke-width="1" />
+                <text x="284" y="38" fill="#94a3b8" font-size="10" text-anchor="middle">(原题已画) 1st</text>
+
+                <!-- Right 1st Order (Student MUST draw - symmetric!) -->
+                <rect x="447" y="46" width="58" height="70" fill="url(#specRight)" stroke="#34d399" stroke-width="2" stroke-dasharray="4 2" />
+                <text x="476" y="38" fill="#34d399" font-size="10" text-anchor="middle" font-weight="bold">须补画: 右1级(等宽对称)</text>
+
+                <!-- Left 2nd Order (Student MUST draw - WIDER!) -->
+                <rect x="60" y="46" width="145" height="70" fill="url(#specLeft)" stroke="#34d399" stroke-width="2" stroke-dasharray="4 2" />
+                <text x="132" y="38" fill="#34d399" font-size="10" text-anchor="middle" font-weight="bold">须补画: 左2级 (明显更宽!)</text>
+
+                <!-- Right 2nd Order (Student MUST draw - WIDER & symmetric!) -->
+                <rect x="555" y="46" width="145" height="70" fill="url(#specRight)" stroke="#34d399" stroke-width="2" stroke-dasharray="4 2" />
+                <text x="627" y="38" fill="#34d399" font-size="10" text-anchor="middle" font-weight="bold">须补画: 右2级 (明显更宽!)</text>
+
+                <!-- Labels below for C, B, A -->
+                <!-- C -->
+                <line x1="255" y1="120" x2="255" y2="140" stroke="#f87171" stroke-width="1.5" />
+                <text x="255" y="155" fill="#f87171" font-size="12" text-anchor="middle" font-weight="bold">C: Red (红)</text>
+                <text x="255" y="170" fill="#94a3b8" font-size="9" text-anchor="middle">24.8°</text>
+
+                <!-- B -->
+                <line x1="313" y1="120" x2="313" y2="140" stroke="#c084fc" stroke-width="1.5" />
+                <text x="313" y="155" fill="#c084fc" font-size="12" text-anchor="middle" font-weight="bold">B: Violet (紫)</text>
+                <text x="313" y="170" fill="#94a3b8" font-size="9" text-anchor="middle">13.9°</text>
+
+                <!-- A -->
+                <line x1="380" y1="120" x2="380" y2="140" stroke="#ffffff" stroke-width="1.5" />
+                <text x="380" y="155" fill="#ffffff" font-size="12" text-anchor="middle" font-weight="bold">A: White (白)</text>
+                <text x="380" y="170" fill="#94a3b8" font-size="9" text-anchor="middle">0°</text>
+
+                <!-- 2nd order edge indicators -->
+                <text x="60" y="135" fill="#f87171" font-size="10" text-anchor="middle">R (57.1°)</text>
+                <text x="205" y="135" fill="#c084fc" font-size="10" text-anchor="middle">V (28.7°)</text>
+                <text x="555" y="135" fill="#c084fc" font-size="10" text-anchor="middle">V (28.7°)</text>
+                <text x="700" y="135" fill="#f87171" font-size="10" text-anchor="middle">R (57.1°)</text>
+
+                <text x="380" y="194" fill="#fde68a" font-size="10.5" text-anchor="middle">检查 4 个得分点：① 右侧有对称 1 级  ② 左右两侧都有 2 级  ③ 2 级比 1 级明显更宽  ④ 1 级与 2 级之间不重叠 (28.7° &gt; 24.8°)</text>
+              </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                <div class="font-bold text-slate-900">Colour at A: White (白色)</div>
+                <p class="text-slate-600 mt-1">在正中央 θ = 0°，所有颜色光的波程差均为 0，全部相长干涉叠加，还原成<strong>白光</strong>。</p>
+              </div>
+              <div class="bg-purple-50 border border-purple-200 rounded-xl p-3">
+                <div class="font-bold text-purple-900">Colour at B: Violet (紫色)</div>
+                <p class="text-slate-600 mt-1">由 sin θ = nλ/d，紫光 λ 最短 → 衍射角 θ 最小 → <strong>最靠内侧</strong>（离 A 最近）！</p>
+              </div>
+              <div class="bg-rose-50 border border-rose-200 rounded-xl p-3">
+                <div class="font-bold text-rose-900">Colour at C: Red (红色)</div>
+                <p class="text-slate-600 mt-1">红光 λ 最长 → 衍射角 θ 最大 → <strong>最靠外侧</strong>！（注意：与三棱镜色散方向正好相反！）</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ==================== Q7 (9 MARKS) ==================== -->
+      <article id="q7" data-status="wrong" class="q-card bg-white rounded-3xl border-2 border-rose-300 shadow-md overflow-hidden scroll-mt-24">
+        <div class="bg-rose-600 text-white px-5 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-xl bg-white text-rose-700 font-extrabold text-sm">Q7</span>
+            <div>
+              <h3 class="font-bold text-base sm:text-lg">红色激光双缝干涉 + 微波对照实验 (9 marks)</h3>
+              <p class="text-xs text-rose-100">7(c) 堪称“符号张冠李戴 + 掉进干扰项”的教科书级反面教材！</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-lg bg-rose-800/80 text-white text-xs font-bold">⚠️ 实得约 3 / 9 分</span>
+        </div>
+
+        <div class="p-5 sm:p-6 space-y-7">
+          <!-- 7(a) -->
+          <div class="border-l-4 border-amber-500 pl-4 sm:pl-5 space-y-3 print-break-avoid">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-extrabold text-slate-900 text-base">7(a) Explain how the bright spots are formed. (4 marks)</h4>
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">⚠️ 半对 (约 2/4 分，漏了核心机制!)</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-amber-50/60 border border-amber-200 rounded-2xl p-4 space-y-2">
+                <div class="font-bold text-amber-800">📝 学生作答</div>
+                <p class="italic text-slate-700">"The double slit diffract waves into two coherent sources to produce steady and observable interference pattern. The screen alternate bright and dark fringes."</p>
+                <p class="text-rose-700 font-semibold">扣分原因：只讲了“怎么产生干涉”，完全没回答题目问的“<strong>亮斑 (bright spots)</strong> 是怎么形成的”——漏掉了最值钱的 2 分：波程差为整数倍波长 + 相长干涉 (constructive interference)！</p>
+              </div>
+              <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-4 space-y-1.5">
+                <div class="font-bold text-emerald-800">✅ 4分满分采分点（直接背诵！）</div>
+                <ol class="list-decimal pl-4 space-y-1 text-slate-700">
+                  <li>Light waves <strong>diffract</strong> through the two slits and <strong>overlap</strong> on the screen. (衍射并重叠，1分)</li>
+                  <li>The two slits act as two <strong>coherent sources</strong> (constant phase difference / in phase). (相干波源，1分)</li>
+                  <li><strong>Interference</strong> occurs where the waves meet. (发生干涉，1分)</li>
+                  <li>Where waves arrive <strong>in phase</strong> (path difference = <strong>nλ</strong>), <strong>constructive interference</strong> occurs, forming <strong>bright spots</strong>. (同相/相长干涉形成亮斑，1分)</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7(b) -->
+          <div class="border-l-4 border-emerald-500 pl-4 sm:pl-5 space-y-2 print-break-avoid">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-extrabold text-slate-900 text-base">7(b) 换成蓝光激光，相邻亮斑间距如何变化？(1 mark)</h4>
+              <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">✅ 答对 (1/1 分)</span>
+            </div>
+            <p class="text-xs text-slate-700 bg-emerald-50/50 border border-emerald-200 rounded-xl p-3">
+              学生答：<strong>decrease</strong> ✅。原理解释：由 Δy = λD / a，蓝光波长 λ 更短，D 与 a 不变，故间距 Δy 减小。
+            </p>
+          </div>
+
+          <!-- 7(c) -->
+          <div class="border-l-4 border-rose-600 pl-4 sm:pl-5 space-y-4 print-break-avoid">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-extrabold text-slate-900 text-base">7(c) 估算红色激光的波长 (2 marks)</h4>
+              <span class="px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-bold">❌ 2 行算式错了 4 处！必看图解！</span>
+            </div>
+
+            <!-- Variable Mapping Diagram SVG -->
+            <div class="bg-slate-900 rounded-2xl p-4 text-white">
+              <div class="text-xs font-bold text-amber-300 mb-2">🎯 彻底分清 4 个数字分别对应哪个符号！（再也别乱填！）</div>
+              <svg viewBox="0 0 680 150" class="w-full h-auto bg-slate-950 rounded-xl border border-slate-700">
+                <!-- Double slit plates -->
+                <rect x="170" y="15" width="8" height="35" fill="#94a3b8" />
+                <rect x="170" y="62" width="8" height="26" fill="#94a3b8" />
+                <rect x="170" y="100" width="8" height="35" fill="#94a3b8" />
+
+                <!-- Slit width callout (TRAP!) -->
+                <line x1="168" y1="56" x2="120" y2="35" stroke="#fb7185" stroke-width="1.5" />
+                <rect x="8" y="16" width="142" height="36" rx="6" fill="#4c0519" stroke="#fb7185" />
+                <text x="79" y="31" fill="#fda4af" font-size="10" text-anchor="middle" font-weight="bold">slit width = 6.25×10⁻⁵ m</text>
+                <text x="79" y="45" fill="#fb7185" font-size="9.5" text-anchor="middle" font-weight="bold">🚫 干扰项! 公式里不用它!</text>
+
+                <!-- Slit separation a -->
+                <line x1="190" y1="56" x2="190" y2="94" stroke="#38bdf8" stroke-width="2" />
+                <line x1="184" y1="56" x2="196" y2="56" stroke="#38bdf8" stroke-width="1.5" />
+                <line x1="184" y1="94" x2="196" y2="94" stroke="#38bdf8" stroke-width="1.5" />
+                <text x="204" y="71" fill="#38bdf8" font-size="11" font-weight="bold">a = 0.2 mm</text>
+                <text x="204" y="85" fill="#bae6fd" font-size="10">= 0.2 × 10⁻³ m</text>
+
+                <!-- Distance D -->
+                <line x1="178" y1="128" x2="540" y2="128" stroke="#a78bfa" stroke-width="2" />
+                <text x="360" y="122" fill="#c4b5fd" font-size="11" text-anchor="middle" font-weight="bold">D = 3.8 m (双缝到屏幕距离)</text>
+
+                <!-- Screen -->
+                <rect x="540" y="15" width="8" height="120" fill="#cbd5e1" />
+                <!-- Bright spots -->
+                <circle cx="544" cy="40" r="4" fill="#ef4444" />
+                <circle cx="544" cy="75" r="5" fill="#ef4444" />
+                <circle cx="544" cy="110" r="4" fill="#ef4444" />
+
+                <!-- Fringe separation dy -->
+                <line x1="562" y1="40" x2="562" y2="75" stroke="#34d399" stroke-width="2" />
+                <line x1="556" y1="40" x2="568" y2="40" stroke="#34d399" stroke-width="1.5" />
+                <line x1="556" y1="75" x2="568" y2="75" stroke="#34d399" stroke-width="1.5" />
+                <text x="574" y="54" fill="#34d399" font-size="11" font-weight="bold">Δy = 1.24 cm</text>
+                <text x="574" y="69" fill="#a7f3d0" font-size="10">= 1.24 × 10⁻² m</text>
+              </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-rose-50/60 border border-rose-200 rounded-2xl p-4 space-y-2">
+                <div class="font-bold text-rose-800">❌ 学生灾难现场复盘</div>
+                <div class="font-mono bg-white p-2 rounded-lg border border-rose-200 text-rose-700">
+                  0.2 = (3.8 × λ) / (6.5 × 10⁻⁵) ⇒ λ = 3.42 × 10⁻¹ m ❌
+                </div>
+                <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                  <li><strong>错误 1：</strong>把题目给的 Δy = 1.24 cm 直接扔了不用！</li>
+                  <li><strong>错误 2：</strong>把双缝间距 0.2 mm（还没换算！）塞进了 Δy！</li>
+                  <li><strong>错误 3：</strong>把<strong>干扰项 slit width</strong> 塞进了双缝间距 a，还把 6.25 抄成了 6.5！</li>
+                  <li><strong>错误 4：</strong>算出波长 0.342 米（比一张 A4 纸还长！）竟然不怀疑！</li>
+                </ul>
+              </div>
+
+              <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-4 space-y-2">
+                <div class="font-bold text-emerald-800">✅ 正确满分计算</div>
+                <div><strong>Step 1 列表换算单位 (全换米 m)：</strong><br/>
+                  Δy = 1.24 cm = <strong>1.24 × 10⁻² m</strong>；a = 0.2 mm = <strong>0.2 × 10⁻³ m</strong>；D = <strong>3.8 m</strong>。
+                </div>
+                <div class="flex items-center flex-wrap gap-1">
+                  <strong>Step 2 移项代入：</strong>
+                  <span class="math-eq">λ = <span class="frac"><span class="frac-top">Δy · a</span><span class="frac-bot">D</span></span> = <span class="frac"><span class="frac-top">(1.24×10⁻²)(0.2×10⁻³)</span><span class="frac-bot">3.8</span></span> = <strong>6.53 × 10⁻⁷ m</strong></span>
+                </div>
+                <div class="text-emerald-700 font-bold">✓ 验算：653 nm 完美命中红光波段 (630–700 nm)！</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7(d) -->
+          <div class="border-l-4 border-amber-500 pl-4 sm:pl-5 space-y-3 print-break-avoid">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <h4 class="font-extrabold text-slate-900 text-base">7(d) 改用微波做实验，为什么老师建议把缝宽增至 1 cm？(2 marks)</h4>
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">⚠️ 半对 (约 1/2 分，句子残缺且漏关键词)</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-amber-50/60 border border-amber-200 rounded-2xl p-4">
+                <div class="font-bold text-amber-800 mb-1">📝 学生作答</div>
+                <p class="italic text-slate-700">"Because the wavelength of microwaves is bigger, so it need a bigger slit width to make the of similar..."</p>
+                <p class="text-amber-800 mt-1.5 font-semibold">扣分点：语法断掉，而且没说出“这样做是为了产生明显的<strong>衍射 (noticeable diffraction)</strong>”！</p>
+              </div>
+              <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-4 space-y-1">
+                <div class="font-bold text-emerald-800">✅ 2分标准模板</div>
+                <p class="text-slate-800">1. Microwaves have a <strong>much longer wavelength</strong> (a few cm) than red light. (1分)</p>
+                <p class="text-slate-800">2. The slit width needs to be <strong>comparable to the wavelength</strong> so that <strong>significant / noticeable diffraction</strong> can occur (and enough wave energy can pass through). (1分)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- ==================== Q8 (5 MARKS) ==================== -->
+      <article id="q8" data-status="wrong" class="q-card bg-white rounded-3xl border-2 border-rose-300 shadow-md overflow-hidden scroll-mt-24">
+        <div class="bg-rose-600 text-white px-5 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-3 py-1 rounded-xl bg-white text-rose-700 font-extrabold text-sm">Q8</span>
+            <div>
+              <h3 class="font-bold text-base sm:text-lg">电磁波应用：电视广播 (UHF/VHF) 与电台频率计算 (5 marks)</h3>
+              <p class="text-xs text-rose-100">全卷最容易拿满分的送分大题，学生仅靠猜对 VHF 拿了 0–1 分！</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-lg bg-rose-800/80 text-white text-xs font-bold">❌ 实得约 0–1 / 5 分</span>
+        </div>
+
+        <div class="p-5 sm:p-6 space-y-6">
+          <!-- EM Spectrum Visual Strip -->
+          <div class="bg-slate-900 rounded-2xl p-4 text-white space-y-2.5 print-break-avoid">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="text-xs font-bold text-amber-300">📡 电磁波谱急救图（一次解决 Q5 + Q8 所有盲区！）</span>
+              <span class="text-[11px] text-slate-300">全部电磁波在真空/空气中波速均为 c = 3 × 10⁸ m s⁻¹</span>
+            </div>
+            <div class="grid grid-cols-7 gap-1 text-center text-[10px] sm:text-xs font-bold">
+              <div class="bg-rose-600/90 p-2 rounded-lg border-2 border-amber-300">
+                <div>无线电波</div>
+                <div class="text-[9px] font-normal text-rose-100 mt-0.5">Radio waves</div>
+                <div class="text-[9px] text-amber-200 mt-1">TV(UHF/VHF)<br/>FM/AM电台</div>
+              </div>
+              <div class="bg-orange-600/90 p-2 rounded-lg">
+                <div>微波</div>
+                <div class="text-[9px] font-normal text-orange-100 mt-0.5">Microwaves</div>
+                <div class="text-[9px] text-orange-100 mt-1">卫星通讯<br/>雷达/微波炉</div>
+              </div>
+              <div class="bg-amber-600/90 p-2 rounded-lg">
+                <div>红外线</div>
+                <div class="text-[9px] font-normal text-amber-100 mt-0.5">Infrared</div>
+                <div class="text-[9px] text-amber-100 mt-1">遥控器<br/>热成像</div>
+              </div>
+              <div class="bg-gradient-to-r from-red-500 via-green-500 to-violet-500 p-2 rounded-lg border-2 border-white">
+                <div>可见光</div>
+                <div class="text-[9px] font-normal text-white mt-0.5">Visible</div>
+                <div class="text-[9px] text-white mt-1">人眼可见!<br/>400–700nm</div>
+              </div>
+              <div class="bg-indigo-600/90 p-2 rounded-lg">
+                <div>紫外线</div>
+                <div class="text-[9px] font-normal text-indigo-100 mt-0.5">UV</div>
+                <div class="text-[9px] text-indigo-100 mt-1">杀菌消毒<br/>验钞</div>
+              </div>
+              <div class="bg-purple-700/90 p-2 rounded-lg">
+                <div>X 射线</div>
+                <div class="text-[9px] font-normal text-purple-100 mt-0.5">X-rays</div>
+                <div class="text-[9px] text-purple-100 mt-1">医学拍片<br/>安检</div>
+              </div>
+              <div class="bg-fuchsia-800/90 p-2 rounded-lg">
+                <div>γ 射线</div>
+                <div class="text-[9px] font-normal text-fuchsia-100 mt-0.5">Gamma</div>
+                <div class="text-[9px] text-fuchsia-100 mt-1">放疗杀癌<br/>核辐射</div>
+              </div>
+            </div>
+            <div class="flex justify-between text-[11px] text-slate-300 pt-1">
+              <span>⬅️ 波长 λ 越长（越容易绕过高楼衍射）</span>
+              <span>频率 f 越高 / 能量越强 ➡️</span>
+            </div>
+          </div>
+
+          <!-- 8(a)(i) -->
+          <div class="border-l-4 border-rose-500 pl-4 space-y-2 print-break-avoid">
+            <h4 class="font-extrabold text-slate-900 text-sm sm:text-base">8(a)(i) 电视广播 (UHF / VHF) 使用的是哪种电磁波？(1 mark)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="bg-rose-50 border border-rose-200 rounded-xl p-3">
+                <strong class="text-rose-700">❌ 学生答：</strong><span class="red-strike">microwaves</span>（微波）→ 混淆了电视广播与卫星通讯！
+              </div>
+              <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3">
+                <strong class="text-emerald-800">✅ 正解：Radio waves (无线电波)</strong>。HKDSE 课本明确规定：电视 (UHF/VHF) 与电台 (FM/AM) 广播均属于 Radio waves！
+              </div>
+            </div>
+          </div>
+
+          <!-- 8(a)(ii) -->
+          <div class="border-l-4 border-amber-500 pl-4 space-y-2 print-break-avoid">
+            <h4 class="font-extrabold text-slate-900 text-sm sm:text-base">8(a)(ii) 高楼林立的市区，VHF (50 MHz) 还是 UHF (500 MHz) 更容易收到强信号？解释原因。(2 marks)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
+                <strong class="text-amber-800">⚠️ 学生答：</strong>只写了 <strong>VHF</strong>，解释<strong>完全空白</strong>！
+              </div>
+              <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 space-y-1">
+                <strong class="text-emerald-800">✅ 满分 2 分写法（固定三段论）：</strong>
+                <p><strong>VHF.</strong> By <em>v = fλ</em>, VHF has a <strong>lower frequency</strong> and therefore a <strong>longer wavelength</strong> (6 m vs 0.6 m) (1分). Thus, VHF waves <strong>diffract more easily around tall buildings</strong> (更容易绕过高楼发生衍射) (1分).</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 8(b) -->
+          <div class="border-l-4 border-rose-500 pl-4 space-y-3 print-break-avoid">
+            <h4 class="font-extrabold text-slate-900 text-sm sm:text-base">8(b) 某电台广播波长为 3.4 m，查表判断它是哪个电台？(2 marks)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="bg-rose-50 border border-rose-200 rounded-xl p-3.5">
+                <strong class="text-rose-700">❌ 学生作答：</strong>只写了 <span class="font-mono font-bold">v = fλ</span> 就放弃了！<br/>
+                <span class="text-slate-600 mt-1 inline-block"><strong>卡壳原因：</strong>不知道无线电波的速度 v 就是光速 <strong>3 × 10⁸ m/s</strong>，或者不会把 Hz 换算成 MHz（除以 10⁶）。</span>
+              </div>
+              <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 space-y-1.5">
+                <strong class="text-emerald-800">✅ 2分秒杀步骤：</strong>
+                <div class="math-eq">f = <span class="frac"><span class="frac-top">v</span><span class="frac-bot">λ</span></span> = <span class="frac"><span class="frac-top">3 × 10⁸</span><span class="frac-bot">3.4</span></span> = 8.82 × 10⁷ Hz = <strong>88.2 MHz</strong></div>
+                <div>查表：<strong>CRHK 1</strong> 的 FM 频段是 <strong>88.1 – 89.5 MHz</strong>，刚好包含 88.2 MHz！</div>
+                <div class="font-bold text-emerald-800">∴ 答案：CRHK 1</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ==================== SECTION 3: INTERACTIVE SIMULATOR ==================== -->
+    <section id="simulator" class="space-y-5 scroll-mt-20 no-print">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-sm">03</span>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">互动「防坑实验室」：双缝干涉 &amp; 波长合理性警报器</h2>
+          <p class="text-sm text-slate-500">拖动滑块亲眼看 λ、a、D 如何影响 Δy，并体验为什么学生算出的 1.18 nm 会触发警报！</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Controls -->
+        <div class="lg:col-span-5 space-y-5">
+          <div>
+            <div class="flex justify-between text-xs font-bold mb-1.5">
+              <span>入射光波长 λ</span>
+              <span id="sim-lambda-val" class="text-rose-600 font-mono">653 nm (红光)</span>
+            </div>
+            <input id="sim-lambda" type="range" min="400" max="700" value="653" class="w-full accent-indigo-600 cursor-pointer" />
+            <div class="flex justify-between text-[10px] text-slate-400 mt-0.5">
+              <span>400 nm (紫)</span>
+              <span>578 nm (黄 Q6)</span>
+              <span>700 nm (红)</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-bold mb-1.5">
+              <span>双缝间距 a (注意不是缝宽!)</span>
+              <span id="sim-a-val" class="text-indigo-600 font-mono">0.20 mm</span>
+            </div>
+            <input id="sim-a" type="range" min="0.10" max="0.50" step="0.02" value="0.20" class="w-full accent-indigo-600 cursor-pointer" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-bold mb-1.5">
+              <span>双缝到屏幕距离 D</span>
+              <span id="sim-d-val" class="text-indigo-600 font-mono">3.8 m</span>
+            </div>
+            <input id="sim-d" type="range" min="0.5" max="5.0" step="0.1" value="3.8" class="w-full accent-indigo-600 cursor-pointer" />
+          </div>
+
+          <!-- Preset buttons -->
+          <div class="flex flex-wrap gap-2 pt-1">
+            <button onclick="setSimPreset(653, 0.20, 3.8)" class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 text-xs font-bold hover:bg-rose-100 transition">还原 Q7(c) 红光</button>
+            <button onclick="setSimPreset(450, 0.20, 3.8)" class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold hover:bg-blue-100 transition">切换 Q7(b) 蓝光</button>
+          </div>
+
+          <!-- Sanity Check Mini Tool -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="text-xs font-bold text-slate-800">🚨 波长常识检验器（输入你算出的数量级）</div>
+            <div class="flex flex-wrap gap-1.5">
+              <button onclick="checkSanity('1.18e-9')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-[11px] font-mono hover:bg-rose-50">Q6(a)学生: 1.18×10⁻⁹m</button>
+              <button onclick="checkSanity('5.78e-7')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-[11px] font-mono hover:bg-emerald-50">Q6(a)正解: 5.78×10⁻⁷m</button>
+              <button onclick="checkSanity('3.42e-1')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-[11px] font-mono hover:bg-rose-50">Q7(c)学生: 3.42×10⁻¹m</button>
+              <button onclick="checkSanity('6.53e-7')" class="px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-[11px] font-mono hover:bg-emerald-50">Q7(c)正解: 6.53×10⁻⁷m</button>
+            </div>
+            <div id="sanity-result" class="text-xs p-2.5 rounded-xl bg-white border border-slate-200 text-slate-600">
+              点击上方按钮，立刻检验答案属于电磁波谱的哪一段！
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Screen Preview -->
+        <div class="lg:col-span-7 flex flex-col justify-between bg-slate-950 rounded-2xl p-5 text-white border border-slate-800">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300">实时模拟光屏干涉条纹 (Δy = λD / a)</span>
+            <span id="sim-dy-val" class="px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/40 text-indigo-200 text-xs font-mono font-bold">Δy = 1.24 cm</span>
+          </div>
+
+          <div class="my-5">
+            <canvas id="fringe-canvas" class="w-full h-36 rounded-xl border border-slate-700 block"></canvas>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center text-xs bg-slate-900 rounded-xl p-3 border border-slate-800">
+            <div>
+              <div class="text-slate-400 text-[11px]">λ 变短 (如红→蓝)</div>
+              <div class="font-bold text-blue-400 mt-0.5">条纹变密 (Δy ↓)</div>
+            </div>
+            <div>
+              <div class="text-slate-400 text-[11px]">a 变大 (双缝变宽)</div>
+              <div class="font-bold text-amber-400 mt-0.5">条纹变密 (Δy ↓)</div>
+            </div>
+            <div>
+              <div class="text-slate-400 text-[11px]">D 变大 (屏幕拉远)</div>
+              <div class="font-bold text-emerald-400 mt-0.5">条纹变疏 (Δy ↑)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION 4: TARGETED MINI QUIZ ==================== -->
+    <section id="quiz" class="space-y-5 scroll-mt-20 no-print">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">04</span>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">Emma 专属「5 题变式排雷测验」</h2>
+          <p class="text-sm text-slate-500">精准对应这份卷子踩过的 5 个大坑，做完全部全对才算真正补上漏洞！</p>
+        </div>
+      </div>
+
+      <div id="quiz-container" class="space-y-4"></div>
+    </section>
+
+    <!-- ==================== SECTION 5: CHEAT SHEET & 7-DAY PLAN ==================== -->
+    <section id="cheatsheet" class="space-y-6 scroll-mt-20">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm">05</span>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900">考前急救手册 &amp; 提分行动清单</h2>
+          <p class="text-sm text-slate-500">可直接打印贴在书桌前，每次做题前默念 3 遍</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Formula Comparison Table -->
+        <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm print-break-avoid">
+          <h3 class="font-extrabold text-slate-900 text-base mb-4">📐 三大必背公式防混对照表</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700">
+                  <th class="p-2.5 rounded-tl-xl">场景</th>
+                  <th class="p-2.5">公式</th>
+                  <th class="p-2.5 rounded-tr-xl">防坑红线</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200">
+                <tr>
+                  <td class="p-2.5 font-bold text-indigo-700">双缝干涉<br/>Double Slit</td>
+                  <td class="p-2.5 font-mono font-bold">Δy = λD / a</td>
+                  <td class="p-2.5 text-slate-600"><strong>a 是双缝间距</strong>，绝不是 slit width！cm 乘 10⁻²，mm 乘 10⁻³！</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-bold text-purple-700">衍射光栅<br/>Grating</td>
+                  <td class="p-2.5 font-mono font-bold">d sin θₙ = nλ<br/>n ≤ d / λ</td>
+                  <td class="p-2.5 text-slate-600">per <strong>metre</strong>：d = 1/N；<br/>per <strong>mm</strong>：d = 10⁻³/N！<br/>最高级数 n <strong>永远向下取整</strong>！</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-bold text-emerald-700">电磁波速<br/>EM Wave</td>
+                  <td class="p-2.5 font-mono font-bold">v = fλ<br/>(c = 3×10⁸)</td>
+                  <td class="p-2.5 text-slate-600">仅<strong>真空/空气</strong>是 3×10⁸ m/s！<br/>1 MHz = 10⁶ Hz；1 kHz = 10³ Hz。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3-Second Sanity Checklist -->
+        <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-3xl p-5 sm:p-6 shadow-md print-break-avoid">
+          <h3 class="font-extrabold text-base mb-4 text-amber-300">🛡️ 交卷前 3 秒「保命四问」</h3>
+          <ul class="space-y-3 text-xs sm:text-sm">
+            <li class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-emerald-500 text-slate-950 font-black flex items-center justify-center shrink-0 text-xs mt-0.5">1</span>
+              <span><strong>全部换算成米 (m) 和赫兹 (Hz) 了吗？</strong> 看见 cm、mm、per mm、MHz 立刻圈出来！</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-emerald-500 text-slate-950 font-black flex items-center justify-center shrink-0 text-xs mt-0.5">2</span>
+              <span><strong>藏起来的常数找出来了吗？</strong> metre rule = 1.0 m；电磁波空气波速 = 3 × 10⁸ m/s！</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-emerald-500 text-slate-950 font-black flex items-center justify-center shrink-0 text-xs mt-0.5">3</span>
+              <span><strong>可见光波长在 4×10⁻⁷ ~ 7×10⁻⁷ m 吗？</strong> 如果算出 10⁻⁹ 或 10⁻¹，100% 算错了，立刻重算！</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-emerald-500 text-slate-950 font-black flex items-center justify-center shrink-0 text-xs mt-0.5">4</span>
+              <span><strong>光栅级数 nₘₐₓ 向下取整了吗？白光光谱“中白、内紫、外红”画对称了吗？</strong></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4-Step Recovery Action Plan -->
+      <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm print-break-avoid">
+        <h3 class="font-extrabold text-slate-900 text-base mb-4">📅 给学生/老师的一周补基础执行方案</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
+            <div class="font-extrabold text-rose-800 mb-1">Day 1–2：死磕单位与审题</div>
+            <p class="text-slate-700 leading-relaxed">专练 10 道含 cm/mm/per m/per mm/干扰项(slit width) 的代入题，强制要求每题先写“已知条件列表 (SI单位)”再列公式。</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200">
+            <div class="font-extrabold text-amber-800 mb-1">Day 3–4：攻克光栅 &amp; 画图</div>
+            <p class="text-slate-700 leading-relaxed">亲手重做 Q6 全套 3 遍！徒手默画白光 1 级和 2 级对称光谱图，并口述“为什么红在外紫在内、为什么 2 级更宽”。</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-indigo-50 border border-indigo-200">
+            <div class="font-extrabold text-indigo-800 mb-1">Day 5：背熟电磁波谱</div>
+            <p class="text-slate-700 leading-relaxed">默写 7 大电磁波顺序、日常应用（特别区分 TV=Radio waves vs 卫星=Microwaves）及可见光范围 400–700 nm。</p>
+          </div>
+          <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+            <div class="font-extrabold text-emerald-800 mb-1">Day 6–7：默写模板 + 重考</div>
+            <p class="text-slate-700 leading-relaxed">背诵 4 句高频英文解释模板（亮纹形成、测高阶减误差、微波增缝宽、VHF 衍射强），最后限时 35 分钟重考这份原卷，目标 30/35+！</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white mt-12 py-6 text-center text-xs text-slate-500">
+    S.5 Physics Test (Light Wave, EM Wave) 深度辅导拆解报告 · 专为夯实底层物理基础设计
+  </footer>
+
+  <!-- ==================== JAVASCRIPT: INTERACTIVITY ==================== -->
+  <script>
+    // 1. Filter Question Cards by Status
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+        // Update button visual state
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-slate-900', 'text-white');
+          b.classList.add('bg-white');
+        });
+        btn.classList.remove('bg-white');
+        btn.classList.add('bg-slate-900', 'text-white');
+
+        document.querySelectorAll('.q-card').forEach(card => {
+          const status = card.getAttribute('data-status');
+          if (filter === 'all' || status === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // 2. Interactive Double-Slit Fringe Simulator
+    const lambdaSlider = document.getElementById('sim-lambda');
+    const aSlider = document.getElementById('sim-a');
+    const dSlider = document.getElementById('sim-d');
+    const canvas = document.getElementById('fringe-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Convert wavelength (400-700nm) to approximate RGB + Chinese label
+    function wavelengthToColor(nm) {
+      let r = 0, g = 0, b = 0, label = '';
+      if (nm < 440) { r = 139; g = 92; b = 246; label = '紫光 Violet'; }
+      else if (nm < 490) { r = 59; g = 130; b = 246; label = '蓝光 Blue'; }
+      else if (nm < 520) { r = 6; g = 182; b = 212; label = '青光 Cyan'; }
+      else if (nm < 565) { r = 34; g = 197; b = 94; label = '绿光 Green'; }
+      else if (nm < 595) { r = 234; g = 179; b = 8; label = '黄光 Yellow'; }
+      else if (nm < 625) { r = 249; g = 115; b = 22; label = '橙光 Orange'; }
+      else { r = 239; g = 68; b = 68; label = '红光 Red'; }
+      return { r, g, b, label };
+    }
+
+    function updateSimulator() {
+      const lambdaNm = parseFloat(lambdaSlider.value);
+      const aMm = parseFloat(aSlider.value);
+      const dM = parseFloat(dSlider.value);
+
+      const color = wavelengthToColor(lambdaNm);
+      const dyM = ((lambdaNm * 1e-9) * dM) / (aMm * 1e-3);
+      const dyCm = dyM * 100;
+
+      document.getElementById('sim-lambda-val').textContent = `${lambdaNm} nm (${color.label})`;
+      document.getElementById('sim-lambda-val').style.color = `rgb(${color.r},${color.g},${color.b})`;
+      document.getElementById('sim-a-val').textContent = `${aMm.toFixed(2)} mm`;
+      document.getElementById('sim-d-val').textContent = `${dM.toFixed(1)} m`;
+      document.getElementById('sim-dy-val').textContent = `Δy = ${dyCm.toFixed(2)} cm`;
+
+      // Responsive canvas sizing
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(300, Math.floor(rect.width * dpr));
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const W = rect.width;
+      const H = rect.height;
+      ctx.fillStyle = '#020617';
+      ctx.fillRect(0, 0, W, H);
+
+      // Map screen width to 12 cm physical span (-6 cm to +6 cm)
+      const spanCm = 12;
+      for (let x = 0; x < W; x++) {
+        const posCm = ((x / W) - 0.5) * spanCm;
+        const phase = (Math.PI * posCm) / dyCm;
+        // Double-slit cos^2 intensity modulated by gentle envelope
+        const envelope = Math.exp(-Math.pow(posCm / 6.5, 2));
+        const intensity = Math.pow(Math.cos(phase), 2) * envelope;
+        ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${intensity.toFixed(3)})`;
+        ctx.fillRect(x, 12, 1.5, H - 34);
+      }
+
+      // Draw center line and scale label
+      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      ctx.moveTo(W / 2, 6);
+      ctx.lineTo(W / 2, H - 20);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '11px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('O (中央0级亮纹) · 屏幕总宽 = 12 cm', W / 2, H - 6);
+    }
+
+    function setSimPreset(l, a, d) {
+      lambdaSlider.value = l;
+      aSlider.value = a;
+      dSlider.value = d;
+      updateSimulator();
+    }
+
+    lambdaSlider.addEventListener('input', updateSimulator);
+    aSlider.addEventListener('input', updateSimulator);
+    dSlider.addEventListener('input', updateSimulator);
+    window.addEventListener('resize', updateSimulator);
+
+    // 3. Sanity Check Alarm Tool
+    function checkSanity(valStr) {
+      const val = parseFloat(valStr);
+      const box = document.getElementById('sanity-result');
+      if (val >= 3.8e-7 && val <= 7.5e-7) {
+        box.className = 'text-xs p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 font-semibold';
+        box.innerHTML = `✅ <strong>检验通过！</strong> ${(val * 1e9).toFixed(0)} nm 处于可见光范围 (400–700 nm)，答案完全合理！`;
+      } else if (val < 1e-8) {
+        box.className = 'text-xs p-2.5 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 font-semibold';
+        box.innerHTML = `🚨 <strong>高危警报！</strong> ${valStr} m 属于 <strong>X 射线</strong>波段！可见光绝对不可能是 10⁻⁹ m，检查是否把 per metre 错当成了 per mm！`;
+      } else {
+        box.className = 'text-xs p-2.5 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 font-semibold';
+        box.innerHTML = `🚨 <strong>高危警报！</strong> ${valStr} m (34.2 cm) 是<strong>微波/无线电波</strong>！可见光绝不可能比尺子还长，立刻检查单位和变量是否代反！`;
+      }
+    }
+
+    // 4. Interactive 5-Question Remediation Quiz
+    const quizData = [
+      {
+        q: '【排雷 1 · 光栅单位】某光栅标明有 5 × 10⁵ lines per metre，它的光栅间距 d 是多少？',
+        options: ['A. 2 × 10⁻⁹ m', 'B. 2 × 10⁻⁶ m', 'C. 5 × 10⁵ m', 'D. 2 × 10⁻³ m'],
+        correct: 1,
+        explain: '题目单位已经是 per metre（每米），直接取倒数 d = 1 / (5×10⁵) = 2×10⁻⁶ m！不要乱乘 10⁻³！'
+      },
+      {
+        q: '【排雷 2 · 最高级数取整】计算光栅最高级数时得到 n ≤ 3.92，那么眼睛最多能观察到第几级亮纹？',
+        options: ['A. 第 4 级（四舍五入）', 'B. 第 3 级（必须向下取整）', 'C. 第 3.92 级', 'D. 第 7 级'],
+        correct: 1,
+        explain: '第 4 级需要 sin θ > 1，物理上不存在！因此无论小数部分多接近整数（哪怕 3.99），最高级数都必须向下取整为 3！'
+      },
+      {
+        q: '【排雷 3 · 区分干扰项】双缝实验：双缝间距 0.3 mm，每条狭缝宽 0.05 mm，屏距 2.0 m，条纹间距 4.0 mm。求波长时公式里的 a 应代入？',
+        options: ['A. 0.05 × 10⁻³ m', 'B. 4.0 × 10⁻³ m', 'C. 0.3 × 10⁻³ m', 'D. 2.0 m'],
+        correct: 2,
+        explain: '公式 Δy = λD / a 中，a 是双缝间距 (slit separation) = 0.3 mm = 0.3×10⁻³ m；狭缝宽度 (0.05 mm) 是纯干扰项！'
+      },
+      {
+        q: '【排雷 4 · 白光光栅顺序】白光通过衍射光栅后，第 1 级彩色光谱中，最靠近中央白色亮纹的是什么颜色？',
+        options: ['A. 红色 Red', 'B. 黄色 Yellow', 'C. 紫色 Violet', 'D. 白色 White'],
+        correct: 2,
+        explain: '由 d sin θ = nλ，紫光波长 λ 最短，偏折角 θ 最小，因此最靠近中央（内紫外红）！'
+      },
+      {
+        q: '【排雷 5 · 电磁波常识】以下关于电磁波的说法，哪一项是【正确】的？',
+        options: [
+          'A. 所有电磁波在玻璃中的速度都是 3 × 10⁸ m/s',
+          'B. 电视 UHF/VHF 广播属于微波 (Microwaves)',
+          'C. 人眼无法探测任何电磁波',
+          'D. VHF 频率比 UHF 低，波长更长，更容易绕过高楼发生衍射'
+        ],
+        correct: 3,
+        explain: 'A错（仅真空是 3×10⁸ m/s）；B错（电视广播是 Radio waves 无线电波）；C错（人眼可见的可见光就是电磁波）；D 完全正确！'
+      }
+    ];
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      container.innerHTML = '';
+      quizData.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3';
+        card.innerHTML = `
+          <div class="font-bold text-slate-900 text-sm">${item.q}</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            ${item.options.map((opt, oIdx) => `
+              <button onclick="answerQuiz(${idx}, ${oIdx})" id="qbtn-${idx}-${oIdx}"
+                class="text-left px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-700 hover:bg-indigo-50 hover:border-indigo-300 transition">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="qfb-${idx}" class="hidden text-xs p-3 rounded-xl"></div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function answerQuiz(qIdx, oIdx) {
+      const item = quizData[qIdx];
+      const fb = document.getElementById(`qfb-${qIdx}`);
+      // Reset button styles for this question
+      item.options.forEach((_, i) => {
+        const b = document.getElementById(`qbtn-${qIdx}-${i}`);
+        b.className = 'text-left px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-700 hover:bg-indigo-50 hover:border-indigo-300 transition';
+      });
+      const selectedBtn = document.getElementById(`qbtn-${qIdx}-${oIdx}`);
+      const correctBtn = document.getElementById(`qbtn-${qIdx}-${item.correct}`);
+
+      if (oIdx === item.correct) {
+        selectedBtn.className = 'text-left px-3.5 py-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-xs font-bold text-emerald-900';
+        fb.className = 'text-xs p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-medium';
+        fb.innerHTML = `✅ <strong>排雷成功！</strong> ${item.explain}`;
+      } else {
+        selectedBtn.className = 'text-left px-3.5 py-2.5 rounded-xl border-2 border-rose-500 bg-rose-50 text-xs font-bold text-rose-900';
+        correctBtn.className = 'text-left px-3.5 py-2.5 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-xs font-bold text-emerald-900';
+        fb.className = 'text-xs p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 font-medium';
+        fb.innerHTML = `❌ <strong>又踩坑啦！</strong> ${item.explain}`;
+      }
+    }
+
+    // Initialize interactive components on load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuiz();
+      updateSimulator();
+    });
+  </script>
+</body>
+</html>
